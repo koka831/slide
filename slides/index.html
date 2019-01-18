@@ -17,10 +17,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 <link rel="stylesheet" href="css/reveal.css">
-<link rel="stylesheet" href="css/theme/night.css" id="theme">
+<link rel="stylesheet" href="css/theme/gruvbox.css" id="theme">
 
 <!-- Code syntax highlighting -->
-<link rel="stylesheet" href="lib/css/zenburn.css">
+<link rel="stylesheet" href="lib/css/gruvbox-dark.css">
 
 <link rel="stylesheet" href="css/reveal-ck.css">
 
@@ -46,7 +46,347 @@
   <div class="slides">
     <section>
 
-<h1>slide 1</h1>
+<h1>Hello, World</h1>
+
+</section>
+<section>
+<section>
+
+<h2>Before</h2>
+
+<pre><code class="language-sh">python -c 'print("Hello, World")'
+</code></pre>
+
+</section>
+<section>
+
+<h2>After</h2>
+
+<p><img src="./img/pyc.png" width="100%"></p>
+
+</section>
+</section>
+<section>
+
+<h2>who</h2>
+
+<p><img src="./img/icon.jpg" width="200"><br>
+koka<br>
+GitHub: <a href="https://github.com/koka831" class="user-mention">@koka831</a><br>
+Twitter: <a href="https://twitter.com/k_0ka">@k_0ka</a></p>
+
+</section>
+<section>
+
+<p><img src="./img/icon.jpg" width="100"></p>
+
+<p>電気/通信専攻<br>
+普段はVue/React<br>
+趣味でRustでOS書いたりインタプリタ書いたり</p>
+
+</section>
+<section>
+<section>
+
+<h2>Table of Contents</h2>
+
+<p>プログラムがどのように実行されるのか  <br>
+CPythonを例に追っていく</p>
+
+</section>
+</section>
+<section>
+
+<h2>Start</h2>
+
+<pre><code class="language-python">print("Hello, World")
+</code></pre>
+
+</section>
+<section>
+
+<ul>
+  <li><code>print()</code></li>
+  <li><code>"Hello, World"</code></li>
+</ul>
+
+</section>
+<section>
+
+<h2>いま無意識にやったこと</h2>
+
+</section>
+<section>
+
+<h2>lexer/字句解析</h2>
+<p>ソースコードを意味のあるまとまりの集合に変換する</p>
+
+</section>
+<section>
+
+<p>(e.g.)<br>
+我輩は猫である。</p>
+
+<p>→</p>
+
+<pre><code>["我輩", "は", "猫", "で", "ある", "。"]
+</code></pre>
+
+</section>
+<section>
+<section>
+
+<h1>次に</h1>
+
+</section>
+<section>
+
+<ul>
+  <li>
+<code>print()</code> → 関数</li>
+  <li>
+<code>"Hello, World"</code> → 文字列</li>
+</ul>
+
+</section>
+<section>
+
+<h2>プログラムでは</h2>
+<p>Parser/構文解析</p>
+
+</section>
+<section>
+
+<p>(e.g.)</p>
+
+<pre><code>["我輩", "は", "猫", "で", "ある", "。"]
+</code></pre>
+<p>→</p>
+
+<pre><code>[
+  ("我輩", 名詞),
+  ("は", 接続詞),
+  ("猫", 名詞),
+  ("で", 助動詞),
+  ("ある", 動詞),
+  ("。", 終端記号)
+]
+</code></pre>
+
+</section>
+<section>
+
+<p>この解析を左から行う→ LL/LR構文解析<br>
+意味のあるまとまりの端がどこか</p>
+<ul>
+  <li>ここから新しい → 左端導出/LL</li>
+  <li>ここまでがまとまり → 右端導出/LR</li>
+</ul>
+
+</section>
+<section>
+
+<p>“は” って次にくる文字次第では  <br>
+名詞になることもあるんじゃない?</p>
+
+</section>
+<section>
+
+<h2>先読み</h2>
+
+<p>“は” の次は “猫”</p>
+
+<p>→ 接続詞やな</p>
+
+</section>
+<section>
+
+<ul>
+  <li>左から読んでいき</li>
+  <li>ひとつ先読みする</li>
+  <li>左端導出の構文解析</li>
+</ul>
+
+<p>→</p>
+
+<p>LL(1)</p>
+
+</section>
+<section>
+
+<p>CPythonのParserはLL(1)  <br>
+<a href="https://devguide.python.org/compiler/#parse-trees">https://devguide.python.org/compiler/</a></p>
+
+</section>
+<section>
+
+<h2>意味のあるまとまり</h2>
+<p>Pythonでの意味のあるまとまりとは</p>
+
+</section>
+</section>
+<section>
+
+<h2>オブジェクト</h2>
+
+<p>Pythonでは関数も文字列もオブジェクト</p>
+
+</section>
+<section>
+
+<h1>PyObject</h1>
+<p>全ての根源</p>
+
+<p><a href="https://github.com/python/cpython/blob/master/Include/object.h#L109">cpython/include/object.h</a></p>
+
+<pre><code class="language-c">typedef struct _object {
+  // "CPython"のデバッグビルド時に利用
+  _PyObject_HEAD_EXTRA
+  // reference count
+  Py_ssize_t ob_refcnt;
+  // オブジェクトの型のインスタンスの参照
+  struct _typeobject *ob_type;
+} PyObject;
+</code></pre>
+
+</section>
+<section>
+
+<h2>関数</h2>
+
+<p><a href="https://github.com/python/cpython/blob/master/Include/funcobject.h#L21">cpython/include/funcobject.h</a></p>
+
+<pre><code class="language-c">typedef struct {
+    PyObject_HEAD
+    /* A code object, the __code__ attribute */
+    PyObject *func_code;
+    /* A dictionary (other mappings won't do) */
+    PyObject *func_globals;
+    PyObject *func_defaults;
+    PyObject *func_kwdefaults;
+    /* 中略 --- */
+
+} PyFunctionObject;
+</code></pre>
+
+</section>
+<section>
+
+<h1>PyObject_HEAD</h1>
+<p>このオブジェクトが何なのかを示す情報<br>
+(e.g)</p>
+
+<ul>
+  <li>int型のPyObject: PyInt_Type (という識別子)</li>
+  <li>関数のPyObject: PYFUNCTYPE</li>
+</ul>
+
+</section>
+<section>
+<section>
+
+<h2>文字列</h2>
+<p>Pythonでの文字列の扱い <br>
+“文字” の “配列”</p>
+
+</section>
+<section>
+
+<h2>まず文字</h2>
+
+<p><a href="https://github.com/python/cpython/blob/master/Include/cpython/unicodeobject.h#L239">cpython/include/unicodeobject.h</a></p>
+
+<p>(unicodeの取扱がごちゃごちゃ書いてあるので省略)</p>
+
+</section>
+<section>
+
+<h2>配列</h2>
+
+</section>
+<section>
+
+<h2>PyVarObject</h2>
+<p>可変長のオブジェクト</p>
+
+<p><a href="https://github.com/python/cpython/blob/master/Include/object.h#L118">cpython/include/object.h</a></p>
+
+<pre><code class="language-c">typedef struct {  
+    Py_ssize_t ob_refcnt;
+    struct _typeobject *ob_type;
+    Py_ssize_t ob_size;
+} PyVarObject;
+</code></pre>
+
+</section>
+<section>
+
+<p>PyObjectとの違い:</p>
+
+<pre><code class="language-c">Py_ssize_t ob_size;
+</code></pre>
+
+</section>
+<section>
+
+<h2>なんで長さが必要?</h2>
+<p>プログラムはメモリに配置される  <br>
+Q.有限なメモリ上で</p>
+<ul>
+  <li>大きさが変わるオブジェクト</li>
+  <li>大きさが変わらないオブジェクト<br>
+どうすれば効率良く並べられる?</li>
+</ul>
+
+</section>
+<section>
+
+<p>A.<br>
+大きさが変わらないオブジェクトは<br>
+詰めて並べて, <br>
+大きさが変わるオブジェクトは<br>
+変わるもの同士まとめて並べる</p>
+
+</section>
+<section>
+
+<pre><code>+----------------------------------+
+|不変| →              ← | 可変     |
++----------------------------------+
+</code></pre>
+
+<p>不変の部分: スタック領域</p>
+
+<p>可変の部分: ヒープ領域</p>
+
+</section>
+<section>
+
+</section>
+</section>
+<section>
+
+<h2>ここまで</h2>
+
+<pre><code class="language-c">PyObject(PYFUNCTYPE) {
+  引数: PyVarObject(PySlice_Type("Hello, World"))
+  func_code: // print()の実体
+}
+</code></pre>
+
+<pre><code>+----------------------------------+
+|print()| →      ← |"Hello, World" |
++----------------------------------+
+
+</code></pre>
+
+</section>
+<section>
+
+<p>(今回の”Hello, World”のように<br>
+文字列が不変の場合には<br>
+スタックに配置されますが、<br>
+可変長のオブジェクトであることを強調)</p>
 
 </section>
 
@@ -79,7 +419,7 @@
 
   
 
-  var configOptions = {"controls":true,"progress":true,"history":true,"center":true}
+  var configOptions = {"transition":"none","backgroundTransition":"none"}
   var initializeOptions = {};
   extend(initializeOptions, baseOptions);
   extend(initializeOptions, configOptions);

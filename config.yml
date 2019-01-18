@@ -1,2 +1,5 @@
-theme: 'night'
+theme: 'gruvbox'
 title: 'hello, world'
+revealjs_config:
+  transition: 'none'
+  backgroundTransition: 'none'
