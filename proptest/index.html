@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta charset="utf-8">
+
+<title>hello, world</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="generator" content="reveal-ck 3.9.1">
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/gruvbox.css" id="theme">
+
+<!-- Code syntax highlighting -->
+<link rel="stylesheet" href="lib/css/gruvbox-dark.css">
+
+<link rel="stylesheet" href="css/reveal-ck.css">
+
+
+<!-- Printing and PDF exports -->
+<script>
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+
+  </head>
+
+  <body>
+    <div class="reveal">
+  <!-- Any section element inside of this container is displayed as a slide -->
+  <div class="slides">
+    <section>
+
+<p>分かっているようで意外と知らない<br>
+ソフトウェアテスト</p>
+
+<p><a href="https://github.com/nefrock" class="user-mention">@nefrock</a> in 大岡山</p>
+
+</section>
+<section>
+
+<h3>who</h3>
+
+<p><img src="./img/icon.jpg" width="200"><br>
+<a href="https://koka831.github.io/about">https://koka831.github.io/about</a></p>
+
+</section>
+<section>
+
+<p><img src="./img/icon.jpg" width="100"></p>
+
+<p>Kohei Kariya -&gt; koka</p>
+
+<p>Freelance Engineer</p>
+
+</section>
+<section>
+
+<h3>今日の内容</h3>
+<h6>テストの目的</h6>
+<h6>テストの種類</h6>
+<h6>テストの導入</h6>
+<h6>テストの運用</h6>
+
+</section>
+<section>
+
+<h1>テストの目的</h1>
+
+</section>
+<section>
+
+<p>Q. “テストって何の為にするんだっけ”</p>
+
+</section>
+<section>
+
+<p>“バグを未然に防ぐため”</p>
+
+</section>
+<section>
+
+<p>本当に?</p>
+
+</section>
+<section>
+
+<p>Q. “そもそもバグってなに?”</p>
+
+</section>
+<section>
+
+<p>“仕様です! と言い張れないような挙動”</p>
+
+<p>→ ユーザが被害を被るようなもの全般</p>
+
+</section>
+<section>
+
+<h2>テストの目的</h2>
+
+<p>バグを未然に防ぐ ← もちろんある</p>
+
+<p>“技術的負債を増やさない” ← こっちの方が大事</p>
+
+</section>
+<section>
+
+<h1>WHY?</h1>
+
+</section>
+<section>
+
+<p>バグを未然に防ぐ</p>
+
+</section>
+<section>
+
+<p><img src="./img/jojo.jpg"></p>
+
+</section>
+<section>
+
+<ul>
+  <li>
+    <p>バグはどうしても生じる</p>
+  </li>
+  <li>
+    <p>バグを全て見つけるのは不可能</p>
+  </li>
+</ul>
+
+<p>バグの存在は示せるがバグの不在は証明できない</p>
+
+</section>
+<section>
+
+<p>“そもそもなぜテストを書くんだっけ”</p>
+
+</section>
+<section>
+
+<ul>
+  <li>バグを防ぐ</li>
+  <li>技術的負債を増やさない</li>
+</ul>
+
+<p>まだ表面的</p>
+
+</section>
+<section>
+
+<p>→ ユーザが被害を被らないため</p>
+
+<p>x 目的と手段を履き違えない</p>
+
+</section>
+<section>
+
+<h3>ソフトウェア開発における</h3>
+<h3>テストの立ち位置</h3>
+
+<p>バグを減らし、バグが生じた際に修正コストを低く保つ為に技術的負債を増やさないための手段</p>
+
+</section>
+<section>
+
+<p>よっしゃテスト書くで!</p>
+
+<p>…あれ、どうやって書けばええんや?</p>
+
+</section>
+<section>
+
+<p>バグを全て防ぐのは不可能<br>
+→ 全てを網羅するテストが書けないから</p>
+
+<p>バグが発生しうるテストケースを考慮できるならバグは起こらない</p>
+
+</section>
+<section>
+
+<p>テスターを無限人雇うと</p>
+
+<p>→ テスターの品質・テスターのテストはどうやって保障するのか</p>
+
+<p>プロダクトを理解したエンジニアが兼任するのがベスト</p>
+
+</section>
+<section>
+
+<p>自分で書くしかない</p>
+
+</section>
+<section>
+
+<h3>テストの種類</h3>
+
+</section>
+<section>
+
+<ul>
+  <li>
+    <p>ホワイトボックス</p>
+  </li>
+  <li>
+    <p>ブラックボックス</p>
+  </li>
+</ul>
+
+</section>
+<section>
+
+<h3>ブラックボックステスト</h3>
+
+<ul>
+  <li>入力と出力のペアを与え、期待した挙動が得られるか</li>
+</ul>
+
+<p>→ 実装を気にしないテスト</p>
+
+</section>
+<section>
+
+<h3>ホワイトボックステスト</h3>
+
+<ul>
+  <li>プログラムの構造が正しいか</li>
+</ul>
+
+<p>→ プログラムの分岐条件各々に対してフローテスト</p>
+
+</section>
+<section>
+
+<h2>それぞれのデメリット</h2>
+
+<ul>
+  <li>BB: テストケースが引数の組み合わせだけ増える
+    <ul>
+      <li>機能追加と共に既存テストケースも改修する必要が生じる</li>
+    </ul>
+  </li>
+  <li>WB: 仕様とずれていても検知できない</li>
+</ul>
+
+</section>
+<section>
+
+<p>両方やりたいけどコストが…</p>
+
+</section>
+<section>
+
+<p>“どこをテストすればいいの?”</p>
+
+</section>
+<section>
+
+<p>“バグの8割はプログラムの20%の部分に集中している”</p>
+
+<p>複雑な部分・バグりやすい部分は大体同じ</p>
+
+</section>
+<section>
+
+<p>→ 普段からテストを書いていればここが落ちやすいというのがわかる</p>
+
+<p>→ Test-Driven Development</p>
+
+</section>
+<section>
+
+<p>カバレッジ計測を行うことでバグの埋まりやすい部分、テストの薄い部分が可視化される</p>
+
+<p>→ ホワイトボックステスト</p>
+
+</section>
+<section>
+
+<ul>
+  <li>Property-Based Testingを用いることで型システムによるテストケースの自動化が可能</li>
+</ul>
+
+<p>→ ブラックボックステスト</p>
+
+</section>
+<section>
+
+<p>閑話休題</p>
+
+</section>
+<section>
+
+<p>静的型付けと動的型付け</p>
+
+</section>
+<section>
+
+<p>Q. “型の有無でバグ数に有意差が生じるのか”</p>
+
+</section>
+<section>
+
+<p>A. ほぼない</p>
+
+</section>
+<section>
+
+<ul>
+  <li>強い静的型付け言語は弱い型付けに比べやや有意</li>
+  <li>静的型付け言語は動的言語に比べやや有意</li>
+  <li>言語間の差はそこまでない</li>
+</ul>
+
+<p>→ 型よりもプロダクト・チームにあった言語を採用するほうがよい</p>
+
+</section>
+<section>
+
+<p>とはいっても今回は型システムの恩恵を紹介します</p>
+
+</section>
+<section>
+
+<h3>Property-Based Testing</h3>
+
+</section>
+<section>
+
+<p>型システムを用いることで(ある種の)バグの不在を証明出来る</p>
+
+</section>
+<section>
+
+<h2>ブラックボックステストを行う場合のつらみ</h2>
+<ul>
+  <li>改修に弱い<br>
+テストデータも改修する必要がでてくる</li>
+</ul>
+
+</section>
+<section>
+
+<h3>Property-Based Testing</h3>
+<p>テストデータを型情報に基づいて乱数生成する</p>
+
+<p>→ 入力値の組み合わせを自動生成出来る!</p>
+<ul>
+  <li>テストデータの管理が楽</li>
+  <li>バグを埋め込みやすい境界値ケースも生成できる<br>
+→ カバレッジと組み合わせればつよい</li>
+</ul>
+
+</section>
+<section>
+
+<p>例(RustのProptestというライブラリ)</p>
+
+<pre><code class="language-rust">#[test]
+fn parses_all_valid_dates(
+  s in "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+  ) {
+    println!("{}-{}/{}", y, m, d);
+    // 1667-77-67
+    // 5076-51-20
+}
+</code></pre>
+
+</section>
+<section>
+
+<p>例(RustのQuickcheck)</p>
+
+<pre><code class="language-rust">quickcheck! {
+    fn prop(xs: Vec&lt;u32&gt;) -&gt; bool {
+        xs == reverse(&amp;reverse(&amp;xs))
+    }
+}
+</code></pre>
+
+<p>関数の挙動もテストできる</p>
+
+</section>
+<section>
+
+<ul>
+  <li>Generatorを作成することも可能</li>
+  <li>enum, 構造体にも応用可能</li>
+</ul>
+
+</section>
+<section>
+
+<h3>まとめ</h3>
+
+</section>
+<section>
+
+<h3>テストの目的</h3>
+<p>ユーザーが不利益を被らないようにする</p>
+
+<p>そのために</p>
+<ul>
+  <li>バグを極力減らす</li>
+  <li>技術的負債を増やさない</li>
+</ul>
+
+</section>
+<section>
+
+<ul>
+  <li>まずは今から書くコードをTDDで</li>
+  <li>テストと開発を同時に行う</li>
+  <li>ウォーターフォール・V字モデルなどのように、<br>
+開発とテスト工程の時期が離れれば離れるほど</li>
+  <li>技術的負債が増える</li>
+  <li>工数見積もりが困難になる</li>
+</ul>
+
+</section>
+<section>
+
+<h3>テストの運用</h3>
+<ul>
+  <li>開発者自身がテストを書く</li>
+  <li>バグは局在するのでカバレッジは見ておく</li>
+</ul>
+
+</section>
+<section>
+
+<h3>最後に</h3>
+<p>ユーザに価値を届ける為にテストをしよう</p>
+
+</section>
+<section>
+
+<ul>
+  <li>
+    <p>参考文献・リンク</p>
+  </li>
+  <li>リーン開発の現場・オーム社・Henrik Kniberg</li>
+  <li>カイゼン・ジャーニー・翔泳社・市谷聡啓/新井剛</li>
+  <li>エンジニアリング組織論への招待・技術評論社・広木大地</li>
+  <li>Property-Based Testing with PropEr, Erlang, and Elixir・Hebert</li>
+</ul>
+
+</section>
+<section>
+
+<ul>
+  <li>テスト駆動開発・オーム社・Kent Beck</li>
+  <li>アートオブアジャイルデベロップメント・オライリー・James Shore</li>
+  <li>緊急・重要のメトリクス(<a href="http://biz-frameworks.com/category24/2_2matrix_for_time_investment.html">http://biz-frameworks.com/category24/2_2matrix_for_time_investment.html</a>)</li>
+  <li>Property-Based Testingでドメインロジックをテストする(<a href="https://gakuzzzz.github.io/slides/property_based_testing_for_domain/#4">https://gakuzzzz.github.io/slides/property_based_testing_for_domain/#4</a>)</li>
+  <li>proptestの紹介(<a href="https://qiita.com/legokichi/items/a2f98e99dfcb7536dde9">https://qiita.com/legokichi/items/a2f98e99dfcb7536dde9</a>)</li>
+</ul>
+
+</section>
+
+  </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+
+<script>
+  (function() {
+  function extend( a, b ) {
+    for(var i in b) {
+      a[i] = b[i];
+    }
+  }
+  var baseOptions = {
+    transition: 'default',
+
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+    ]
+  };
+
+
+  var configOptions = {"transition":"none","backgroundTransition":"none"}
+  var initializeOptions = {};
+  extend(initializeOptions, baseOptions);
+  extend(initializeOptions, configOptions);
+  Reveal.initialize(initializeOptions);
+})();
+
+</script>
+
+  </body>
+</html>
